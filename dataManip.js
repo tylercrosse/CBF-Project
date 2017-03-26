@@ -14,13 +14,13 @@ const readStream = fs.readFile('redbkmon/03103.txt', 'utf-8', (err, contents) =>
       row + '\n'
     ))
     .join('');
-  console.log(tmp[0].slice(0,-1));
-  // const doc = tmp.concat(['\n']).concat(body);
-  //
-  // fs.writeFile('test.csv', doc, (err) => {
-  //   if (err) throw err;
-  //   console.log('It saved! 🎊😀');
-  // })
+
+  const doc = [tmp.join(',')] + '\n' + body;
+
+  fs.writeFile('test.csv', doc, (err) => {
+    if (err) throw err;
+    console.log('It saved! 🎊😀');
+  })
 })
 // const readStream = fs.createReadStream('redbkmon/03103.txt')
 //   .on('data', (doc) => {
