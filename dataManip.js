@@ -1,28 +1,38 @@
 const fs = require('fs');
 const readStream = fs.readFile('redbkmon/03103.txt', 'utf-8', (err, contents) => {
-  // console.log(contents);
   const csv = contents.split('\n');
-  const head = csv.slice(0, 26);
+  const rawMeta = csv.slice(0, 8);
+  const head = csv.slice(9, 25);
 
-  let tmp = [];
-  for (let i=9; i<25; i++) {
-    tmp.push(head[i]);
+  // strip and clean meta keys & vals
+  const metaKeys = [];
+  const metaVals = [];
+  for (let i=0; i<rawMeta.length; i++) {
+    const cleanMeta = rawMeta[i].replace(/["]/g, '').trim().split(',');
+    metaKeys.push(cleanMeta[0]);
+    metaVals.push(cleanMeta[1]);
   }
 
+  // clean column titles
+  let colTitles = [];
+  for (let i=0; i<head.length; i++) {
+    const colTitle = head[i].slice(11).slice(0, -1);
+    colTitles.push(colTitle.replace(',', ''));
+  }
+
+  // build body
   const body = csv.slice(26)
     .map((row) => (
-      row + '\n'
+      // join meta vals with orginal row data
+      metaVals.join(',') + ',' + row + '\n'
     ))
     .join('');
 
-  const doc = [tmp.join(',')] + '\n' + body;
+  // build final doc
+  const doc = metaKeys.join(',') + ',' + colTitles.join(',') + '\n' + body;
 
   fs.writeFile('test.csv', doc, (err) => {
     if (err) throw err;
     console.log('It saved! 🎊😀');
   })
-})
-// const readStream = fs.createReadStream('redbkmon/03103.txt')
-//   .on('data', (doc) => {
-//     console.log(doc);
-//   })
+});
