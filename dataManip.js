@@ -38,6 +38,7 @@ fs.readdir(sourceDir, (err, files) => {
         // join meta vals with orginal row data
         metaVals.join(',') + ',' + row + '\n'
       ))
+      .slice(0, -1)
       .join('');
 
     // build final doc
@@ -45,7 +46,6 @@ fs.readdir(sourceDir, (err, files) => {
     body += fileBody;
   })
 
-  console.log('🍕', colTitles)
   const doc = colTitles + body;
 
   const targetFile = 'data.csv';
