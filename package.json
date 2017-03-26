@@ -1,0 +1,13 @@
+{
+  "name": "cbc-project",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/tylercrosse/CBF-Project.git",
+  "author": "Tyler Crosse <tylerscottcrosse@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "async": "^2.2.0",
+    "fs-promise": "^2.0.2",
+    "fs-readfile-promise": "^3.0.0"
+  }
+}
